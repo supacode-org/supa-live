@@ -72,21 +72,23 @@ pub async fn termination() {
     #[cfg(unix)]
     {
         use tokio::signal::unix::{signal, SignalKind};
-        let mut term = match signal(SignalKind::terminate()) {
-            Ok(s) => s,
-            Err(_) => {
-                let _ = tokio::signal::ctrl_c().await;
-                return;
-            }
+        let Ok(mut term) = signal(SignalKind::terminate()) else {
+            return ctrl_c().await;
         };
         tokio::select! {
-            _ = tokio::signal::ctrl_c() => {}
+            _ = ctrl_c() => {}
             _ = term.recv() => {}
         }
     }
     #[cfg(not(unix))]
-    {
-        let _ = tokio::signal::ctrl_c().await;
+    ctrl_c().await;
+}
+
+/// 等 Ctrl+C。註冊不了時（例如 Windows 沒有主控台的視窗程式）就永遠等下去，
+/// 不能當成收到結束要求，否則程式一啟動就會自己結束。
+async fn ctrl_c() {
+    if tokio::signal::ctrl_c().await.is_err() {
+        std::future::pending::<()>().await;
     }
 }
 
