@@ -1,4 +1,4 @@
-# SupaLive 工作守則
+# Supa Live 工作守則
 
 給所有在這個倉庫工作的程式助手（Claude Code、Codex 等）共用的守則。`CLAUDE.md` 只引用這份文件，規則只寫在這裡。
 
@@ -31,7 +31,7 @@
 
 - 一次提交對應一個功能：spec 和實作放在同一個提交裡。互不相干的改動分開提交。
 - 提交訊息：第一行用一句話說做了什麼；內文說為什麼、有什麼取捨，不重複 diff 看得出來的內容。
-- 每次改完程式就編譯桌面版（`cargo build -p supalive-desktop`），讓 Leo 可以直接打開 App 檢查。
+- 每次改完程式就編譯桌面版（`cargo build -p supa-live-desktop`），讓 Leo 可以直接打開 App 檢查。
 - 提交前跑 `cargo fmt --all`、`cargo clippy --workspace --all-targets`、`cargo test --workspace`。
 
 ## 程式碼組織
@@ -62,7 +62,7 @@
 
 ## 開發
 
-- 最低 Rust 1.88。`cargo build` 預設只建 core 與 cli。桌面版用 `cargo build -p supalive-desktop`。
+- 最低 Rust 1.88。`cargo build` 預設只建 core 與 cli。桌面版用 `cargo build -p supa-live-desktop`。
 - 桌面版介面是純 HTML/CSS/JS，不用 npm。介面檔在編譯時嵌入，`build.rs` 讓 cargo 監看 `ui/`，改了介面重新編譯就會帶進去。
 - 雲端環境連不到抖音 CDN，真實直播只能在 Leo 的 Mac 上測。
 - 發佈版本在本機用 `tools/release.sh`，流程見 [`spec/20261101-release.md`](spec/20261101-release.md)。

@@ -1,9 +1,9 @@
 ---
 name: release
-description: 在本機打包 SupaLive 的 macOS 與 Windows（arm64、x86_64）安裝檔並發佈到 GitHub Release，發佈後版本號自動加一。Leo 說要發佈、發版、出 release 時使用。
+description: 在本機打包 Supa Live 的 macOS 與 Windows（arm64、x86_64）安裝檔並發佈到 GitHub Release，發佈後版本號自動加一。Leo 說要發佈、發版、出 release 時使用。
 ---
 
-# 發佈 SupaLive
+# 發佈 Supa Live
 
 規則見 `spec/20261101-release.md`，指令都在 `tools/release.sh`。
 
@@ -42,7 +42,7 @@ tools/release.sh publish <說明檔>
 
 它會推 tag、建立 Release 並上傳八個檔案，然後把修訂號加一、提交「版本號改為 x.y.z」並推上 `main`。
 
-完成後用 `gh release view v<版本> --repo supacode-org/supalive` 確認八個檔案都在，把 Release 連結給 Leo。
+完成後用 `gh release view v<版本> --repo supacode-org/supa-live` 確認八個檔案都在，把 Release 連結給 Leo。
 
 ## 出錯時
 

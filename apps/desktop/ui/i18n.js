@@ -119,7 +119,7 @@ window.SupaI18n = {
     "關閉選取直播": "Close Live Picker",
     "正在打開抖音…": "Opening Douyin…",
     "正在偵測拉流網址…": "Looking for the stream link…",
-    "登入後進入任何直播間，SupaLive 會自動抓到它的拉流網址。": "Log in and go to any room; SupaLive picks up its stream link automatically.",
+    "登入後進入任何直播間，Supa Live 會自動抓到它的拉流網址。": "Log in and go to any room; Supa Live picks up its stream link automatically.",
     "已抓到「{name}」的 {n} 種畫質": "Found {n} qualities for “{name}”",
     "要錄的畫質": "Quality to record",
     "頁面播放中": "Playing on page",
@@ -138,12 +138,12 @@ window.SupaI18n = {
     "找不到抖音直播間的網址。請貼上 live.douyin.com 的網址，或抖音 App 分享出來的連結。": "No Douyin room link found. Paste a live.douyin.com link, or the link shared from the Douyin app.",
     "要開始第 {n} 路錄製嗎？": "Start recording #{n}?",
     "已經有 {n} 個直播間在錄製。同時錄製超過 2 個可能觸發抖音風控，所有拉流都可能被暫時封鎖。": "{n} rooms are already recording. More than 2 at once may trigger Douyin's risk control, and every stream may be blocked for a while.",
-    "SupaLive 不會擋你。如果之後開始斷線，停掉幾路再重試。": "SupaLive won't stop you. If streams start dropping, stop a few and try again.",
+    "Supa Live 不會擋你。如果之後開始斷線，停掉幾路再重試。": "Supa Live won't stop you. If streams start dropping, stop a few and try again.",
     "取消": "Cancel",
     "仍要錄製「{name}」": "Record “{name}” anyway",
     "正在封裝錄製…": "Finishing recordings…",
-    "停止所有錄製、寫出緩衝、封好最後一個分段並合併，完成後自動關閉。": "Stopping all recordings, writing out buffers, finishing the last segment and merging. SupaLive closes when done.",
-    "停止所有錄製、寫出緩衝、封好最後一個分段，完成後自動關閉。": "Stopping all recordings, writing out buffers and finishing the last segment. SupaLive closes when done.",
+    "停止所有錄製、寫出緩衝、封好最後一個分段並合併，完成後自動關閉。": "Stopping all recordings, writing out buffers, finishing the last segment and merging. Supa Live closes when done.",
+    "停止所有錄製、寫出緩衝、封好最後一個分段，完成後自動關閉。": "Stopping all recordings, writing out buffers and finishing the last segment. Supa Live closes when done.",
 
     // 設定
     "液態玻璃（macOS 26）": "Liquid Glass (macOS 26)",
@@ -158,7 +158,7 @@ window.SupaI18n = {
     "在影片關鍵幀切分，所以每段實際長度會差幾秒。": "Segments are cut at keyframes, so each one may be a few seconds off.",
     "約 {n} 分鐘": "About {n} min",
     "寫檔緩衝": "Write buffer",
-    "錄到的資料先留在記憶體，攢滿才一次寫進磁碟，減少頻繁寫入。每路的大小從下一次錄製開始生效。正常結束程式時會先寫完；被強制結束時，每路最多遺失一個緩衝的資料。": "Recorded data stays in memory and is written to disk once the buffer fills, to avoid frequent writes. The per-room size applies from the next recording. Quitting normally writes everything out first; if SupaLive is force-killed, each room loses at most one buffer.",
+    "錄到的資料先留在記憶體，攢滿才一次寫進磁碟，減少頻繁寫入。每路的大小從下一次錄製開始生效。正常結束程式時會先寫完；被強制結束時，每路最多遺失一個緩衝的資料。": "Recorded data stays in memory and is written to disk once the buffer fills, to avoid frequent writes. The per-room size applies from the next recording. Quitting normally writes everything out first; if Supa Live is force-killed, each room loses at most one buffer.",
     "每路錄製的寫檔緩衝": "Write buffer per room",
     "每路 {n} MB": "Per room {n} MB",
     "所有錄製加起來的寫檔緩衝": "Write buffer for all rooms",
@@ -171,7 +171,7 @@ window.SupaI18n = {
     "每個直播間一個資料夾，裡面每次錄製一個以「年-月-日-時-分」命名的資料夾。沒有名稱的直播間放在「未命名直播間」底下。": "One folder per room, with a folder per recording named year-month-day-hour-minute. Rooms without a name go under “Unnamed room”.",
     "選擇…": "Choose…",
     "同時錄製超過 2 個時提醒": "Warn when recording more than 2",
-    "抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。SupaLive 本身不限制數量。": "Douyin may treat many streams from one IP as abnormal and block them for a while. SupaLive itself has no limit.",
+    "抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。Supa Live 本身不限制數量。": "Douyin may treat many streams from one IP as abnormal and block them for a while. Supa Live itself has no limit.",
     "省電模式": "Power saving",
     "關掉玻璃模糊效果，改用不透明底色。macOS 和 Windows 效果相同。": "Turns off the glass blur and uses opaque backgrounds. Same on macOS and Windows.",
     "視窗材質": "Window material",
@@ -214,6 +214,6 @@ window.SupaI18n = {
     "「{name}」已合併到 merged/": "“{name}” merged into merged/",
     "「{name}」{reason}（{a}/{b}），5 秒後重試": "“{name}”: {reason} ({a}/{b}), retrying in 5 s",
     "「{name}」{msg}": "“{name}”: {msg}",
-    "SupaLive 啟動失敗：{err}": "SupaLive failed to start: {err}"
+    "Supa Live 啟動失敗：{err}": "Supa Live failed to start: {err}"
   }
 };

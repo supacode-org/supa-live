@@ -3,7 +3,7 @@
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
-use supalive_core::session::{default_root, DEFAULT_SEGMENT_MINUTES};
+use supa_live_core::session::{default_root, DEFAULT_SEGMENT_MINUTES};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
@@ -152,5 +152,72 @@ impl Data {
 
     pub fn room_mut(&mut self, id: u64) -> Option<&mut Room> {
         self.rooms.iter_mut().find(|r| r.id == id)
+    }
+}
+
+/// 改名前的 Bundle ID。設定資料夾以 Bundle ID 命名，改名後要從這裡搬舊資料。
+const LEGACY_IDENTIFIER: &str = "app.supalive.desktop";
+
+/// 新設定資料夾還沒有存檔、舊資料夾有時，把舊存檔複製過來。舊檔留著不刪，降級回舊版還能用。
+pub fn migrate_legacy(path: &Path) {
+    if path.exists() {
+        return;
+    }
+    let (Some(dir), Some(name)) = (path.parent(), path.file_name()) else { return };
+    let Some(old) = dir.parent().map(|p| p.join(LEGACY_IDENTIFIER).join(name)) else { return };
+    if !old.is_file() {
+        return;
+    }
+    let _ = std::fs::create_dir_all(dir);
+    // 先複製到暫存檔再改名，複製到一半中斷時下次啟動還會再搬
+    let tmp = path.with_extension("json.tmp");
+    if std::fs::copy(&old, &tmp).is_ok() {
+        let _ = std::fs::rename(&tmp, path);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn temp(tag: &str) -> PathBuf {
+        let d = std::env::temp_dir().join(format!("supa-live-store-{tag}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&d);
+        d
+    }
+
+    #[test]
+    fn copies_legacy_file() {
+        let base = temp("migrate");
+        let old = base.join(LEGACY_IDENTIFIER).join("supalive.json");
+        std::fs::create_dir_all(old.parent().unwrap()).unwrap();
+        std::fs::write(&old, b"{\"nextId\":7}").unwrap();
+        let new = base.join("org.supacode.app.live").join("supalive.json");
+        migrate_legacy(&new);
+        assert_eq!(std::fs::read(&new).unwrap(), b"{\"nextId\":7}");
+        assert!(old.exists(), "舊檔要留著");
+        let _ = std::fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn keeps_existing_file() {
+        let base = temp("keep");
+        let old = base.join(LEGACY_IDENTIFIER).join("supalive.json");
+        let new = base.join("org.supacode.app.live").join("supalive.json");
+        std::fs::create_dir_all(old.parent().unwrap()).unwrap();
+        std::fs::create_dir_all(new.parent().unwrap()).unwrap();
+        std::fs::write(&old, b"old").unwrap();
+        std::fs::write(&new, b"new").unwrap();
+        migrate_legacy(&new);
+        assert_eq!(std::fs::read(&new).unwrap(), b"new");
+        let _ = std::fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn no_legacy_no_file() {
+        let base = temp("none");
+        let new = base.join("org.supacode.app.live").join("supalive.json");
+        migrate_legacy(&new);
+        assert!(!new.exists());
     }
 }

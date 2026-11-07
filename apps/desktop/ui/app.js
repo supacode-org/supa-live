@@ -1,4 +1,4 @@
-// SupaLive 桌面版介面。版面與互動沿用已確認的原型，資料改由 Rust 端提供。
+// Supa Live 桌面版介面。版面與互動沿用已確認的原型，資料改由 Rust 端提供。
 (function () {
   "use strict";
   var T = window.__TAURI__;
@@ -609,7 +609,7 @@
     var h = '<div class="addr"><button class="iconbtn" data-act="dyback" aria-label="' + t("上一頁") + '">' + ic("back") + '</button><span class="url">' + esc(S.dy.url.replace(/^https?:\/\//, "")) + '</span><button class="iconbtn" data-act="dyreload" aria-label="' + t("重新整理") + '">' + ic("reload") + '</button><button class="iconbtn" data-act="dytoggle" aria-label="' + t("關閉選取直播") + '">' + ic("x") + "</button></div>" +
       '<div class="web" id="dyweb"><div class="ph">' + t("正在打開抖音…") + '</div></div><div class="sniffbar">';
     if (!c || !c.streams.length) {
-      h += "<span>" + (/live\.douyin\.com\/\d+/.test(S.dy.url) ? '<span class="spin"></span>' + t("正在偵測拉流網址…") : t("登入後進入任何直播間，SupaLive 會自動抓到它的拉流網址。")) + "</span>";
+      h += "<span>" + (/live\.douyin\.com\/\d+/.test(S.dy.url) ? '<span class="spin"></span>' + t("正在偵測拉流網址…") : t("登入後進入任何直播間，Supa Live 會自動抓到它的拉流網址。")) + "</span>";
     } else {
       var exist = findRoomFor(c), sel = pickOf(c);
       h += '<span class="ok">' + t("已抓到「{name}」的 {n} 種畫質", { name: esc(c.anchor || t("未命名直播間")), n: c.streams.length }) + "</span>" +
@@ -698,14 +698,14 @@
         '<div class="sr"><div class="t"><b>' + t("輸出位置") + "</b><small>" + t("每個直播間一個資料夾，裡面每次錄製一個以「年-月-日-時-分」命名的資料夾。沒有名稱的直播間放在「未命名直播間」底下。") + "</small>" +
         '<div style="display:flex;gap:8px;margin-top:6px"><input class="inp" id="root" value="' + esc(s.root) + '" aria-label="' + t("輸出位置") + '" style="font-family:var(--f-mono);font-size:12.5px"><button class="btn sm ghost" data-act="pick">' + t("選擇…") + "</button></div>" +
         '<pre class="tree" style="margin-top:8px">' + esc(s.root) + "/\n└─ " + demo + "/\n   └─ 2026-10-25-23-12/\n      ├─ clips/\n      ├─ cover.jpg\n      └─ merged/" + demo + "_2026-10-25-23-12.mp4</pre></div></div>" +
-        '<div class="sr"><div class="t"><b>' + t("同時錄製超過 2 個時提醒") + "</b><small>" + t("抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。SupaLive 本身不限制數量。") + "</small></div>" + sw("warnMulti", s.warnMulti) + "</div>" +
+        '<div class="sr"><div class="t"><b>' + t("同時錄製超過 2 個時提醒") + "</b><small>" + t("抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。Supa Live 本身不限制數量。") + "</small></div>" + sw("warnMulti", s.warnMulti) + "</div>" +
         '<div class="sr"><div class="t"><b>' + t("省電模式") + "</b><small>" + t("關掉玻璃模糊效果，改用不透明底色。macOS 和 Windows 效果相同。") + "</small></div>" + sw("eco", s.eco) + "</div>" +
         '<div class="sr"><div class="t"><b>' + t("視窗材質") + "</b><small>" + esc(mat) + (S.privateApi ? "" : t("。這個版本關閉了 macOS 私有 API（上架版設定），視窗不透明。")) + "</small></div></div>" +
         "</div>";
     } else if (S.modal.type === "warn") {
       var r = room(S.modal.id);
       h += "<h2>" + t("要開始第 {n} 路錄製嗎？", { n: nRec() + 1 }) + '</h2><div class="banner">' + ic("warn") + "<p>" + t("已經有 {n} 個直播間在錄製。同時錄製超過 2 個可能觸發抖音風控，所有拉流都可能被暫時封鎖。", { n: nRec() }) + "</p></div>" +
-        '<p class="note">' + t("SupaLive 不會擋你。如果之後開始斷線，停掉幾路再重試。") + "</p>" +
+        '<p class="note">' + t("Supa Live 不會擋你。如果之後開始斷線，停掉幾路再重試。") + "</p>" +
         '<div class="acts"><button class="btn ghost" data-act="close">' + t("取消") + '</button><button class="btn red" data-act="forcestart" data-id="' + r.id + '">' + ic("rec") + t("仍要錄製「{name}」", { name: esc(title(r)) }) + "</button></div>";
     } else if (S.modal.type === "rmrec") {
       var mr = room(S.modal.id), mx = mr && mr.recordings[S.modal.i];
@@ -945,5 +945,5 @@
   });
   listen("closing", function () { S.modal = { type: "closing" }; renderModal(); });
 
-  refresh().catch(function (e) { document.body.textContent = t("SupaLive 啟動失敗：{err}", { err: e }); });
+  refresh().catch(function (e) { document.body.textContent = t("Supa Live 啟動失敗：{err}", { err: e }); });
 })();

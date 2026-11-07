@@ -1,4 +1,4 @@
-//! SupaLive 桌面版：介面在 ../ui，錄製與封裝全部交給 supalive-core。
+//! Supa Live 桌面版：介面在 ../ui，錄製與封裝全部交給 supa-live-core。
 
 mod cover;
 mod douyin;
@@ -13,13 +13,13 @@ use std::sync::{Arc, Mutex};
 
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use supalive_core::manager::{room_key_from_url, Manager, RecordingId, StartRequest};
-use supalive_core::session::{self, SessionDirs};
-use supalive_core::{Event, EventFn, Format};
+use supa_live_core::manager::{room_key_from_url, Manager, RecordingId, StartRequest};
+use supa_live_core::session::{self, SessionDirs};
+use supa_live_core::{Event, EventFn, Format};
 use tauri::{AppHandle, Emitter, Manager as _, State};
 
 use store::{Data, RecStatus, Recording, Room, Settings};
-use supalive_core::tr;
+use supa_live_core::tr;
 
 pub struct AppState {
     data: Mutex<Data>,
@@ -118,7 +118,7 @@ fn save_cover(state: State<'_, AppState>, id: u64, data: Vec<u8>) -> Res<()> {
 /// 介面在啟動和切換語言時告訴後端，之後產生的錯誤和狀態訊息用這個語言。
 #[tauri::command]
 fn set_locale(lang: String) {
-    supalive_core::i18n::set_english(lang == "en");
+    supa_live_core::i18n::set_english(lang == "en");
 }
 
 #[tauri::command]
@@ -501,6 +501,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             let path = app.path().app_config_dir()?.join("supalive.json");
+            store::migrate_legacy(&path);
             let data = Data::load(&path);
             let _ = app.asset_protocol_scope().allow_directory(&data.settings.root, true);
             for r in &data.rooms {
@@ -525,7 +526,7 @@ pub fn run() {
             // 收到 SIGTERM／SIGINT（系統關機、`kill`、終端機 Ctrl+C）時，也先收好錄製再結束
             let term_app = app.handle().clone();
             tauri::async_runtime::spawn(async move {
-                supalive_core::manager::termination().await;
+                supa_live_core::manager::termination().await;
                 if !finish_then_exit(&term_app) {
                     term_app.exit(0);
                 }
@@ -575,7 +576,7 @@ pub fn run() {
             douyin::douyin_streams,
         ])
         .build(tauri::generate_context!())
-        .expect("SupaLive 啟動失敗")
+        .expect("Supa Live 啟動失敗")
         .run(|app, event| {
             // Cmd+Q、從 Dock 結束、系統登出或關機都會走到這裡。
             // 收尾完成後呼叫 app.exit(0) 也會再來一次，那時 code 有值，直接放行

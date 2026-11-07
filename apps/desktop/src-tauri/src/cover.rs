@@ -7,7 +7,7 @@ use std::path::{Path, PathBuf};
 use std::time::UNIX_EPOCH;
 
 use serde::Serialize;
-use supalive_core::tr;
+use supa_live_core::tr;
 
 pub const FILE: &str = "cover.jpg";
 /// 介面送來的是寬 192 px 的小圖，正常只有幾 KB；超過這個大小一定是送錯了

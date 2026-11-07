@@ -4,7 +4,7 @@
 use std::fs;
 use std::path::Path;
 
-use supalive_core::tr;
+use supa_live_core::tr;
 
 /// 看起來是不是一次錄製的資料夾：裡面要有 clips/、merged/ 或 cover.jpg 其中之一。
 fn looks_like_recording(dir: &Path) -> bool {

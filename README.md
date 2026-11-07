@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="docs/assets/icon.png" alt="SupaLive" width="128" />
-  <h1>SupaLive</h1>
+  <img src="docs/assets/icon.png" alt="Supa Live" width="128" />
+  <h1>Supa Live</h1>
   <p>抖音直播錄製工具，直接保存原始串流，畫質與直播完全一致。</p>
   <p>
     <img alt="Platforms" src="https://img.shields.io/badge/platforms-macOS%20%7C%20Windows-blue.svg" />
@@ -10,7 +10,7 @@
 
 ## 簡介
 
-SupaLive 是一款桌面端的抖音直播錄製工具。它直接保存直播間的原始串流，錄下來的畫質與直播一致。封裝功能完全自行實作，安裝後即可使用。
+Supa Live 是一款桌面端的抖音直播錄製工具。它直接保存直播間的原始串流，錄下來的畫質與直播一致。封裝功能完全自行實作，安裝後即可使用。
 
 ## 功能特性
 
@@ -28,7 +28,7 @@ SupaLive 是一款桌面端的抖音直播錄製工具。它直接保存直播�
 
 ### 下載
 
-到 [GitHub Releases](https://github.com/supacode-org/supalive/releases) 下載 macOS 或 Windows 的安裝檔（arm64、x86_64 皆有）。
+到 [GitHub Releases](https://github.com/supacode-org/supa-live/releases) 下載 macOS 或 Windows 的安裝檔（arm64、x86_64 皆有）。
 
 ### 從原始碼建置
 
@@ -46,7 +46,7 @@ cargo tauri build
 
 1. 點擊「新增直播間」，貼上直播間網址。
 2. 在右側「選取直播」中選擇畫質，點擊「錄製這個畫質」。
-3. 錄製的檔案預設保存在 `下載/SupaLive/<直播間名>/<錄製時間>/`。
+3. 錄製的檔案預設保存在 `下載/Supa Live/<直播間名>/<錄製時間>/`。
 
 連結過期後，點擊「重新抓取連結」即可重新取得。
 

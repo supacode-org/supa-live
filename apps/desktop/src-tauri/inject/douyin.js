@@ -1,4 +1,4 @@
-// 注入抖音側欄的腳本：讀取頁面自己請求的拉流網址，交給 SupaLive。
+// 注入抖音側欄的腳本：讀取頁面自己請求的拉流網址，交給 Supa Live。
 // 不代替頁面發請求，登入與簽名都由抖音頁面自己完成。唯一改動頁面的地方是開新分頁：
 // 側欄只有一個頁面，新分頁一律改成在本頁打開。
 (function () {
@@ -55,7 +55,7 @@
     if (!STREAM.test(url) || !CDN.test(url)) return;
     if (!webRid()) return; // 只在直播間頁面回報
     var key = webRid() + "|" + url.split("?")[0];
-    // 頁面切回之前播過的畫質時也要回報，SupaLive 才知道現在播的是哪一路
+    // 頁面切回之前播過的畫質時也要回報，Supa Live 才知道現在播的是哪一路
     var nowPlaying = source !== "api" && playing !== key;
     if (seen[key] && !nowPlaying) return;
     seen[key] = 1;

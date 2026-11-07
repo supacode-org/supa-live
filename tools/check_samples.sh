@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# 開發用驗證腳本：用本機 ffmpeg 產生 H.264 / HEVC 測試串流，再用 supalive 轉檔並檢查能否完整解碼。
+# 開發用驗證腳本：用本機 ffmpeg 產生 H.264 / HEVC 測試串流，再用 supa-live 轉檔並檢查能否完整解碼。
 # ffmpeg 只是開發者機器上的檢查工具，不會進入發佈包。
 set -euo pipefail
 cd "$(dirname "$0")/.."
 cargo build --release -q
-B=target/release/supalive
+B=target/release/supa-live
 T=$(mktemp -d)
 ffmpeg -hide_banner -loglevel error -f lavfi -i testsrc2=size=1280x720:rate=30 -f lavfi -i sine=frequency=440 \
   -t 150 -c:v libx264 -bf 2 -g 60 -pix_fmt yuv420p -c:a aac "$T/h264.flv"

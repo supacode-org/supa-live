@@ -6,7 +6,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-REPO=supacode-org/supalive
+REPO=supacode-org/supa-live
 TARGETS_MAC="aarch64-apple-darwin x86_64-apple-darwin"
 TARGETS_WIN="x86_64-pc-windows-msvc aarch64-pc-windows-msvc"
 
@@ -22,8 +22,8 @@ DIST="dist/$TAG"
 
 # 發佈用的檔名，build 產生、publish 檢查
 artifacts() {
-  echo "SupaLive_${VER}_aarch64.dmg SupaLive_${VER}_x64.dmg SupaLive_${VER}_x64-setup.exe SupaLive_${VER}_arm64-setup.exe"
-  for os in macos-aarch64 macos-x86_64 windows-x86_64 windows-aarch64; do echo "supalive-cli_${VER}_$os.zip"; done
+  echo "Supa-Live_${VER}_aarch64.dmg Supa-Live_${VER}_x64.dmg Supa-Live_${VER}_x64-setup.exe Supa-Live_${VER}_arm64-setup.exe"
+  for os in macos-aarch64 macos-x86_64 windows-x86_64 windows-aarch64; do echo "supa-live-cli_${VER}_$os.zip"; done
 }
 
 preflight() {
@@ -56,8 +56,14 @@ check_paths() { # <執行檔>...
   done
 }
 
+# Tauri 用 productName 當安裝檔檔名，裡面有空格；GitHub 會把空格換成點，所以複製時改成連字號
+copy_bundle() { # <檔案>...
+  local f
+  for f in "$@"; do cp "$f" "$DIST/$(basename "$f" | sed 's/^Supa Live_/Supa-Live_/')"; done
+}
+
 zip_cli() { # <target> <os 名稱> <執行檔名>
-  local out="$PWD/$DIST/supalive-cli_${VER}_$2.zip"
+  local out="$PWD/$DIST/supa-live-cli_${VER}_$2.zip"
   (cd "target/$1/release" && zip -q -X "$out" "$3")
 }
 
@@ -76,10 +82,10 @@ build() {
     # ad-hoc 簽名，沒有 Developer ID
     remap_paths "$t"
     (cd "$bundle" && APPLE_SIGNING_IDENTITY=- cargo tauri build --target "$t" --bundles dmg)
-    cp target/"$t"/release/bundle/dmg/SupaLive_"$VER"_*.dmg "$DIST/"
-    cargo build -q --release -p supalive --target "$t"
-    check_paths target/"$t"/release/supalive-desktop target/"$t"/release/supalive
-    zip_cli "$t" "macos-${t%%-*}" supalive
+    copy_bundle target/"$t"/release/bundle/dmg/"Supa Live_$VER"_*.dmg
+    cargo build -q --release -p supa-live --target "$t"
+    check_paths target/"$t"/release/supa-live-desktop target/"$t"/release/supa-live
+    zip_cli "$t" "macos-${t%%-*}" supa-live
   done
 
   # cargo-xwin 要用 Homebrew 的 llvm（clang-cl）；只在打 Windows 時放進 PATH，不影響 macOS 的建置。
@@ -91,10 +97,10 @@ build() {
     echo "== 打包 $t"
     remap_paths "$t"
     (cd "$bundle" && PATH="$llvm:$PATH" LC_ALL=en_US.UTF-8 cargo tauri build --runner cargo-xwin --target "$t" --bundles nsis)
-    cp target/"$t"/release/bundle/nsis/SupaLive_"$VER"_*-setup.exe "$DIST/"
-    PATH="$llvm:$PATH" cargo xwin build -q --release -p supalive --target "$t"
-    check_paths target/"$t"/release/supalive-desktop.exe target/"$t"/release/supalive.exe
-    zip_cli "$t" "windows-${t%%-*}" supalive.exe
+    copy_bundle target/"$t"/release/bundle/nsis/"Supa Live_$VER"_*-setup.exe
+    PATH="$llvm:$PATH" cargo xwin build -q --release -p supa-live --target "$t"
+    check_paths target/"$t"/release/supa-live-desktop.exe target/"$t"/release/supa-live.exe
+    zip_cli "$t" "windows-${t%%-*}" supa-live.exe
   done
 
   for f in $(artifacts); do [ -f "$DIST/$f" ] || die "缺少 $DIST/$f"; done
@@ -110,9 +116,9 @@ publish() {
   for f in $(artifacts); do [ -f "$DIST/$f" ] || die "缺少 $DIST/$f，先跑 tools/release.sh build"; files+=("$DIST/$f"); done
 
   echo "== 發佈 $TAG"
-  git tag -a "$TAG" -m "SupaLive $VER"
+  git tag -a "$TAG" -m "Supa Live $VER"
   git push -q origin "$TAG"
-  gh release create "$TAG" "${files[@]}" --repo "$REPO" --title "SupaLive $VER" --notes-file "$notes" --verify-tag
+  gh release create "$TAG" "${files[@]}" --repo "$REPO" --title "Supa Live $VER" --notes-file "$notes" --verify-tag
 
   # 修訂號加一
   local next; next=$(echo "$VER" | awk -F. '{print $1"."$2"."$3+1}')

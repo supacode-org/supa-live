@@ -4,11 +4,11 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand, ValueEnum};
-use supalive_core::manager::{list_files, Manager, StartRequest};
-use supalive_core::session::{self, DEFAULT_SEGMENT_MINUTES};
-use supalive_core::{curl, Event, EventFn, Format, SinkOptions};
+use supa_live_core::manager::{list_files, Manager, StartRequest};
+use supa_live_core::session::{self, DEFAULT_SEGMENT_MINUTES};
+use supa_live_core::{curl, Event, EventFn, Format, SinkOptions};
 
-/// SupaLive：抖音直播錄製，直接保存原始串流，不錄屏、不重新編碼、不需要 ffmpeg。
+/// Supa Live：抖音直播錄製，直接保存原始串流，不錄屏、不重新編碼、不需要 ffmpeg。
 #[derive(Parser)]
 #[command(version)]
 struct Cli {
@@ -26,7 +26,7 @@ enum OutFormat {
 
 #[derive(clap::Args)]
 struct OutputArgs {
-    /// 根目錄，預設為 下載/SupaLive
+    /// 根目錄，預設為 下載/Supa Live
     #[arg(short, long)]
     output: Option<PathBuf>,
     /// 每個切片約多少分鐘（在關鍵幀處切開，不精確），0 表示不切
@@ -206,7 +206,7 @@ async fn main() -> Result<()> {
             }
             let m = manager.clone();
             tokio::spawn(async move {
-                supalive_core::manager::termination().await;
+                supa_live_core::manager::termination().await;
                 log("收到停止訊號，正在寫出緩衝、封裝最後一個切片…");
                 m.stop_all();
             });
@@ -214,7 +214,7 @@ async fn main() -> Result<()> {
         }
         Cmd::Remux { input, out, name } => {
             let (dirs, sink) = prepare(&out, name.as_deref())?;
-            let clips = supalive_core::remux_file(&input, sink.clone(), ev.clone())?;
+            let clips = supa_live_core::remux_file(&input, sink.clone(), ev.clone())?;
             finish(&out, &dirs, &sink, &clips, &ev)?;
         }
         Cmd::Merge { clips_dir, output } => {
@@ -222,7 +222,7 @@ async fn main() -> Result<()> {
             let parent = clips_dir.parent().map(PathBuf::from).unwrap_or_default();
             let out_dir = output.unwrap_or_else(|| parent.join("merged"));
             let name = parent.file_name().and_then(|n| n.to_str()).unwrap_or("merged").to_string();
-            for m in supalive_core::merge::merge_clips(&clips, &out_dir, &name)? {
+            for m in supa_live_core::merge::merge_clips(&clips, &out_dir, &name)? {
                 log(format!("已合併 {}", m.display()));
             }
         }

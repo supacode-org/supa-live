@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "SupaLive",
-  "identifier": "app.supalive.desktop",
+  "productName": "Supa Live",
+  "identifier": "org.supacode.app.live",
   "build": {
     "frontendDist": "../ui"
   },
@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "SupaLive",
+        "title": "Supa Live",
         "width": 1200,
         "height": 780,
         "minWidth": 900,
@@ -23,7 +23,7 @@
       "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: asset: http://asset.localhost; media-src 'self' blob: asset: http://asset.localhost; connect-src 'self' ipc: http://ipc.localhost asset: http://asset.localhost",
       "assetProtocol": {
         "enable": true,
-        "scope": ["$DOWNLOAD/SupaLive/**"]
+        "scope": ["$DOWNLOAD/Supa Live/**"]
       }
     }
   },

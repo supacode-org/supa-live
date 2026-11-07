@@ -1,4 +1,4 @@
-//! SupaLive 核心：拉取抖音直播 FLV，不經 ffmpeg 直接封裝成分段 MP4 或原始 FLV。
+//! Supa Live 核心：拉取抖音直播 FLV，不經 ffmpeg 直接封裝成分段 MP4 或原始 FLV。
 
 pub mod curl;
 pub mod diskbuf;

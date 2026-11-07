@@ -7,14 +7,14 @@ use std::collections::HashMap;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 
-use supalive_core::live::LivePacket;
+use supa_live_core::live::LivePacket;
 use tauri::async_runtime::JoinHandle;
 use tauri::ipc::{Channel, InvokeResponseBody};
 use tauri::{AppHandle, Manager as _};
 use tokio::sync::broadcast::error::RecvError;
 
 use crate::AppState;
-use supalive_core::tr;
+use supa_live_core::tr;
 
 /// 進行中的轉發。介面丟掉 channel 時 Rust 端不會知道，所以要由介面明確呼叫 `unwatch` 停掉，
 /// 否則每個片段都還會繼續送進 WebView。

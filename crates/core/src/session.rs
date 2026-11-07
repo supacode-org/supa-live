@@ -19,13 +19,13 @@ pub fn unnamed() -> &'static str {
     }
 }
 
-/// 預設根目錄：使用者的下載資料夾 / SupaLive。
+/// 預設根目錄：使用者的下載資料夾 / Supa Live。
 pub fn default_root() -> PathBuf {
     let home = std::env::var_os("HOME")
         .or_else(|| std::env::var_os("USERPROFILE"))
         .map(PathBuf::from)
         .unwrap_or_else(|| PathBuf::from("."));
-    home.join("Downloads").join("SupaLive")
+    home.join("Downloads").join("Supa Live")
 }
 
 /// 檔名不允許的字元換成底線。直播間名稱現在單獨當一層資料夾，

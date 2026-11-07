@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    supalive_desktop::run();
+    supa_live_desktop::run();
 }

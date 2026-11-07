@@ -8,7 +8,7 @@
 
 ```sh
 cargo build --release
-# 命令列執行檔在 target/release/supalive
+# 命令列執行檔在 target/release/supa-live
 ```
 
 `cargo build` 預設只建錄製核心和命令列。
@@ -27,7 +27,7 @@ cargo tauri dev      # 開發模式直接打開
 cargo tauri build    # 打包成 .app / .dmg（macOS）或 .msi / .exe（Windows）
 ```
 
-只想編譯檢查時，用 `cargo build -p supalive-desktop`。
+只想編譯檢查時，用 `cargo build -p supa-live-desktop`。
 
 介面是純 HTML/CSS/JS（`apps/desktop/ui`），不需要 Node.js。介面檔在編譯時嵌入，改了介面重新編譯就會帶進去。
 
@@ -60,16 +60,16 @@ tools/release.sh publish notes.md   # 推 tag、建立 Release、版本號加一
 
 ```sh
 # 直接貼拉流網址
-supalive record 'https://pull-flv-xxx.douyincdn.com/stage/stream-xxx.flv?...' -n 主播名
+supa-live record 'https://pull-flv-xxx.douyincdn.com/stage/stream-xxx.flv?...' -n 主播名
 
 # 或貼瀏覽器開發者工具裡「Copy as cURL (bash)」的整段指令（指令很長時用 - 從剪貼簿讀）
-pbpaste | supalive record - -n 主播名
+pbpaste | supa-live record - -n 主播名
 ```
 
 同時錄多個直播間：給多個網址，`-n` 依序對應名稱。
 
 ```sh
-supalive record '網址1' '網址2' -n 主播A -n 主播B
+supa-live record '網址1' '網址2' -n 主播A -n 主播B
 ```
 
 每個直播間各自有連線、資料夾與停止訊號，互不影響；同一直播間重複加入會被略過。程式本身不限制數量，但同時超過 2 個可能觸發抖音風控。
@@ -80,7 +80,7 @@ supalive record '網址1' '網址2' -n 主播A -n 主播B
 
 | 項目 | 預設 | 選項 |
 | --- | --- | --- |
-| 輸出位置 | `~/Downloads/SupaLive/<直播間名>/<yyyy-mm-dd-hh-mm>/` | `-o 根目錄`、`-n 直播間名` |
+| 輸出位置 | `~/Downloads/Supa Live/<直播間名>/<yyyy-mm-dd-hh-mm>/` | `-o 根目錄`、`-n 直播間名` |
 | 切片長度 | 約 15 分鐘，在關鍵幀處切開 | `--segment 分鐘`，0 為不切 |
 | 錄完自動合併 | 開啟（直播結束或出錯都會合併已錄到的部分） | `--no-merge` |
 | 合併後保留切片 | 開啟 | `--delete-clips` |
@@ -90,7 +90,7 @@ supalive record '網址1' '網址2' -n 主播A -n 主播B
 資料夾結構：
 
 ```
-~/Downloads/SupaLive/主播名/2026-10-25-21-30/
+~/Downloads/Supa Live/主播名/2026-10-25-21-30/
 ├── clips/    20261025_213000.mp4、20261025_214502.mp4 …
 ├── cover.jpg 封面（桌面版才有）
 └── merged/   主播名_2026-10-25-21-30.mp4
@@ -101,8 +101,8 @@ supalive record '網址1' '網址2' -n 主播A -n 主播B
 其他指令：
 
 ```sh
-supalive remux 舊錄影.flv            # 本機 FLV 轉成 MP4（也能讀抖音的 codec 12 HEVC）
-supalive merge 某次錄製/clips         # 手動合併切片
+supa-live remux 舊錄影.flv            # 本機 FLV 轉成 MP4（也能讀抖音的 codec 12 HEVC）
+supa-live merge 某次錄製/clips         # 手動合併切片
 ```
 
 ## 結構
