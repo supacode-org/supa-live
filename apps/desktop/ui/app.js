@@ -698,6 +698,7 @@
         '<div class="sr"><div class="t"><b>' + t("輸出位置") + "</b><small>" + t("每個直播間一個資料夾，裡面每次錄製一個以「年-月-日-時-分」命名的資料夾。沒有名稱的直播間放在「未命名直播間」底下。") + "</small>" +
         '<div style="display:flex;gap:8px;margin-top:6px"><input class="inp" id="root" value="' + esc(s.root) + '" aria-label="' + t("輸出位置") + '" style="font-family:var(--f-mono);font-size:12.5px"><button class="btn sm ghost" data-act="pick">' + t("選擇…") + "</button></div>" +
         '<pre class="tree" style="margin-top:8px">' + esc(s.root) + "/\n└─ " + demo + "/\n   └─ 2026-10-25-23-12/\n      ├─ clips/\n      ├─ cover.jpg\n      └─ merged/" + demo + "_2026-10-25-23-12.mp4</pre></div></div>" +
+        '<div class="sr"><div class="t"><b>' + t("錄製或合併時不讓電腦睡眠") + "</b><small>" + t("只擋閒置時的自動睡眠，螢幕照常會關。手動睡眠或闔上筆電仍會睡。") + "</small></div>" + sw("keepAwake", s.keepAwake) + "</div>" +
         '<div class="sr"><div class="t"><b>' + t("同時錄製超過 2 個時提醒") + "</b><small>" + t("抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。Supa Live 本身不限制數量。") + "</small></div>" + sw("warnMulti", s.warnMulti) + "</div>" +
         '<div class="sr"><div class="t"><b>' + t("省電模式") + "</b><small>" + t("關掉玻璃模糊效果，改用不透明底色。macOS 和 Windows 效果相同。") + "</small></div>" + sw("eco", s.eco) + "</div>" +
         '<div class="sr"><div class="t"><b>' + t("視窗材質") + "</b><small>" + esc(mat) + (S.privateApi ? "" : t("。這個版本關閉了 macOS 私有 API（上架版設定），視窗不透明。")) + "</small></div></div>" +

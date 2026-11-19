@@ -20,6 +20,8 @@ pub struct Settings {
     pub buffer_total_mb: usize,
     /// 介面語言：system（跟隨系統）、zh-Hant、en
     pub lang: String,
+    /// 有直播間在錄製或合併時阻止系統閒置睡眠
+    pub keep_awake: bool,
 }
 
 impl Settings {
@@ -44,6 +46,7 @@ impl Default for Settings {
             buffer_mb: 16,
             buffer_total_mb: 64,
             lang: "system".into(),
+            keep_awake: true,
         }
     }
 }

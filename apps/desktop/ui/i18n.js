@@ -170,6 +170,8 @@ window.SupaI18n = {
     "輸出位置": "Output folder",
     "每個直播間一個資料夾，裡面每次錄製一個以「年-月-日-時-分」命名的資料夾。沒有名稱的直播間放在「未命名直播間」底下。": "One folder per room, with a folder per recording named year-month-day-hour-minute. Rooms without a name go under “Unnamed room”.",
     "選擇…": "Choose…",
+    "錄製或合併時不讓電腦睡眠": "Keep the computer awake while recording or merging",
+    "只擋閒置時的自動睡眠，螢幕照常會關。手動睡眠或闔上筆電仍會睡。": "Only prevents idle sleep; the display still turns off. Choosing Sleep or closing a laptop lid still puts it to sleep.",
     "同時錄製超過 2 個時提醒": "Warn when recording more than 2",
     "抖音可能把同一個 IP 的大量拉流當成異常而暫時封鎖。Supa Live 本身不限制數量。": "Douyin may treat many streams from one IP as abnormal and block them for a while. Supa Live itself has no limit.",
     "省電模式": "Power saving",

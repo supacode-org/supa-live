@@ -1,5 +1,6 @@
 //! Supa Live 桌面版：介面在 ../ui，錄製與封裝全部交給 supa-live-core。
 
+mod awake;
 mod cover;
 mod douyin;
 mod files;
@@ -28,11 +29,18 @@ pub struct AppState {
     /// 錄製編號 -> 直播間編號
     active: Mutex<HashMap<RecordingId, u64>>,
     material: Mutex<&'static str>,
+    awake: awake::Awake,
 }
 
 impl AppState {
     fn save(&self) {
         self.data.lock().unwrap().save(&self.path);
+    }
+
+    /// 依目前的錄製狀態和設定，決定要不要阻止系統睡眠。
+    fn sync_awake(&self) {
+        let on = awake::wanted(&self.data.lock().unwrap());
+        self.awake.set(on);
     }
 
     fn room_of(&self, rec: RecordingId) -> Option<u64> {
@@ -54,7 +62,9 @@ fn now_ms() -> i64 {
     chrono::Utc::now().timestamp_millis()
 }
 
+/// 錄製狀態每次改變都會走到這裡，順便同步阻止睡眠。呼叫時不能拿著 `data` 的鎖。
 fn changed(app: &AppHandle) {
+    app.state::<AppState>().sync_awake();
     let _ = app.emit("rooms-changed", ());
 }
 
@@ -127,6 +137,7 @@ fn save_settings(app: AppHandle, state: State<'_, AppState>, settings: Settings)
     state.manager.set_buffer_total(settings.buffer_total_bytes());
     state.data.lock().unwrap().settings = settings;
     state.save();
+    state.sync_awake();
     Ok(())
 }
 
@@ -354,13 +365,13 @@ async fn merge_recording(app: AppHandle, id: u64, index: Option<usize>) -> Res<(
     if rec.status != RecStatus::Done {
         return Err(tr!("錄製還沒結束", "The recording has not finished"));
     }
-    set_status(&app, id, rec_index, RecStatus::Merging);
-    let events = room_events(app.clone(), id, rec_index);
-    // 使用者可能在 App 外面刪掉了部分分段，只合併還在的
+    // 使用者可能在 App 外面刪掉了部分分段，只合併還在的。先檢查再標成合併中，免得失敗時一直停在合併中
     let clips: Vec<PathBuf> = rec.clips.iter().filter(|p| p.is_file()).cloned().collect();
     if clips.is_empty() {
         return Err(tr!("找不到可以合併的分段", "No segments left to merge"));
     }
+    set_status(&app, id, rec_index, RecStatus::Merging);
+    let events = room_events(app.clone(), id, rec_index);
     let dirs = SessionDirs::from_root(rec.dir.clone());
     let result = tokio::task::spawn_blocking(move || session::finish(&dirs, &clips, Format::Mp4, keep, &events))
         .await
@@ -537,6 +548,7 @@ pub fn run() {
                 manager,
                 active: Mutex::default(),
                 material: Mutex::new("none"),
+                awake: awake::Awake::default(),
             });
             if let Some(win) = app.get_webview_window("main") {
                 let applied = material::apply(&win, app.config().app.macos_private_api);
